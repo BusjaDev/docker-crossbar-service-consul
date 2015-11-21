@@ -45,12 +45,12 @@ The result is a service that will reconfigure itself as it dynamically discovers
 
 You can also leverage Consul Template for other things
 
-### Reconfigure Consul Based on Key/Value Store
+### Reconfigure Service Based on Consul Key/Value Store
 
 Lets say you are using Consul to store some configuration information that your application depends on and you would
 like to restart the service whenever that information changes, you can do the following
 
-Assumptions
+Assumptions:
 
   - File is called "data.json" and is read by the code from the run directory, which for this example is in 
     "/app/.crossbar/" inside the container
@@ -58,11 +58,11 @@ Assumptions
 
 Update the following files
 
-templates/data.json.tmpl
+#### templates/data.json.tmpl
 
     {{ key (print (env "CONSUL_APP_DATA_PATH") "/data") }}
     
-services/data/run
+#### services/data/run
 
     #!/bin/bash
 
@@ -72,7 +72,7 @@ services/data/run
       -consul=$CONSUL_SERVER \
       -template "/etc/consul-templates/data.json.tmpl:/app/.crossbar/data.json:cat /app/.crossbar/data.json; sv restart connect"
 
-Dockerfile
+#### Dockerfile
 
     FROM thehq/crossbar-service-consul
     
