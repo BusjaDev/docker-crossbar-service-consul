@@ -1,0 +1,28 @@
+{
+   "controller": {
+   },
+   "workers": [
+      {
+         "type": "container",
+         "options": {
+            "pythonpath": [".."]
+         },
+         "components": [
+            {{ range $index, $service := service "%%%ROUTER_SERVICE%%%" }}{{if ne $index 0}},{{end}}{
+               "type": "class",
+               "classname": "%%%SERVICE_ENTRY%%%",
+               "realm": "%%%ROUTER_REALM%%%",
+               "transport": {
+                  "type": "websocket",
+                  "endpoint": {
+                     "type": "tcp",
+                     "host": "{{.Address}}",
+                     "port": {{.Port}}
+                  },
+                  "url": "%%%ROUTER_PROTOCOL%%%://{{.Address}}:{{.Port}}/ws"
+               }
+            }{{end}}
+         ]
+      }
+   ]
+}
