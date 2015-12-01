@@ -10,4 +10,4 @@ cat /etc/consul-templates/config.json.tmpl
 
 exec consul-template \
   -consul=$CONSUL_SERVER \
-  -template "/etc/consul-templates/config.json.tmpl:/app/.crossbar/config.json:cat /app/.crossbar/config.json";
+  -template "/etc/consul-templates/config.json.tmpl:/app/.crossbar/config.json:cat /app/.crossbar/config.json; sv restart connect";
