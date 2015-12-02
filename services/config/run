@@ -9,5 +9,6 @@ sed -i -e "s/%%%SERVICE_ENTRY%%%/${SERVICE_ENTRY}/g" /etc/consul-templates/confi
 cat /etc/consul-templates/config.json.tmpl
 
 exec consul-template \
+  -retry 1 \
   -consul=$CONSUL_SERVER \
   -template "/etc/consul-templates/config.json.tmpl:/app/.crossbar/config.json:cat /app/.crossbar/config.json; sv restart connect";
